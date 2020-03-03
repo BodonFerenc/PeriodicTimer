@@ -16,7 +16,7 @@ void runtimer(unsigned long *now, unsigned long *waittill,
     unsigned long wait, unsigned long nr);
 
 
-static void inline addNanoSecs(struct timespec* curTime, int64_t nanosec)
+static void inline addNanoSecs(struct timespec* curTime, unsigned long nanosec)
 {
     if ((nanosec+curTime->tv_nsec) >= BILLION)
     {
