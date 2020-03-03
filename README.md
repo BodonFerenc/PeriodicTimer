@@ -4,6 +4,7 @@ This small repository contains C files that demonstrate the two ways of creating
 
 To build the two binaries:
 ```
+$ mkdir bin
 $ cd src
 $ make
 ```
