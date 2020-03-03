@@ -4,13 +4,13 @@ This small repository contains C files that demonstrate the two ways of creating
 
 To build the two binaries:
 ```
-cd src
-make
+$ cd src
+$ make
 ```
 
 To run the executables:
 ```
-./bin/bytimecheck 20000 30 res.csv
+$ ./bin/bytimecheck 20000 30 res.csv
 ```
 which will run a time check based periodic timer for 30 seconds. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
 
