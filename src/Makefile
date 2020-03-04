@@ -14,5 +14,6 @@ all: ../bin/bysleep ../bin/bytimecheck
 %o: %.c
 	$(CC) $(CFLAGS) $<
 
+.PHONY: clean
 clean:
 	rm -rf *.o
