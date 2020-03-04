@@ -39,11 +39,11 @@ int main(int argc, char* argv[])
 
     const unsigned long FREQ = atol(argv[1]);          // frequency
     const unsigned long WAIT = BILLION / FREQ;         // wait time between ticks
-    printf("Wait time is set to\t %lu nanosec\n", WAIT);
+    printf("Wait time is set to\t\t %lu nanosec\n", WAIT);
     const unsigned int DUR = atoi(argv[2]);            // duration is second
 
     const unsigned long MAXRUN = DUR * FREQ;
-    printf("Nr of expected ticks\t %lu\n", MAXRUN);    
+    printf("Nr of expected ticks\t\t %lu\n", MAXRUN);    
     unsigned long *now = (unsigned long *) malloc(MAXRUN * sizeof(long));
     unsigned long *waittill = (unsigned long *) malloc(MAXRUN * sizeof(long));
 
@@ -53,8 +53,8 @@ int main(int argc, char* argv[])
 
     const float realdur = (float) (waittill[MAXRUN-1] - now[1]) / BILLION;    
 
-    printf("Real duration was\t %f sec\n", realdur);
-    printf("Real frequency was\t %ld\n", (long) (MAXRUN / realdur));    
+    printf("Real duration was\t\t %f sec\n", realdur);
+    printf("Real frequency was\t\t %ld\n", (long) (MAXRUN / realdur));    
 
     printf("Writing results to file %s\n", argv[3]);  
     FILE *fp = fopen(argv[3], "w");
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     free(now);
     free(waittill);
 
-    printf("Wait time offset\t %ld nanosec\n", (long) (sumwait / MAXRUN));
+    printf("Average wait time latency\t %ld nanosec\n", (long) (sumwait / MAXRUN));
 
     return 0;
 }
