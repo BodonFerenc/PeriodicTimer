@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
-#include <stdbool.h>
 
 const long BILLION=1000000000l;
 

@@ -7,6 +7,7 @@
  * This timer constantly asks for the current time and checks if it passed the next trigger time
  */
 
+#include <stdbool.h>
 #include "common.c"
 
 /** returns true if the first time is at or after the second time
