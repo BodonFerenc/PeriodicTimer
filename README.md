@@ -15,7 +15,7 @@ $ ./bin/bytimecheck 20000 30 res.csv
 ```
 which will run a time check based periodic timer for 30 seconds. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
 
-The program will output a few useful information, e.g the planned delays between triggers and the average of actal and planned delays. You can get a full distribution of the delays, .e.g by a simple q process:
+The program will output a few useful information, e.g the planned delays between triggers and the average of actual and planned delays. You can get a full distribution of the delays, .e.g by a simple q process:
 
 ```
 $ q
