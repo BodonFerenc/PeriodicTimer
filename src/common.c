@@ -44,8 +44,8 @@ int main(int argc, char* argv[])
 
     const unsigned long MAXRUN = DUR * FREQ;
     printf("Nr of expected ticks\t %lu\n", MAXRUN);    
-    unsigned long *now = malloc(MAXRUN * sizeof(unsigned long));
-    unsigned long *waittill = malloc(MAXRUN * sizeof(unsigned long));
+    unsigned long *now = (unsigned long *) malloc(MAXRUN * sizeof(long));
+    unsigned long *waittill = (unsigned long *) malloc(MAXRUN * sizeof(long));
 
     printf("Starting the timer\n");  
     
@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
       sumwait += now[i] - waittill[i];
     }
     fclose(fp);
+    free(now);
+    free(waittill);
 
     printf("Wait time offset\t %ld nanosec\n", (long) (sumwait / MAXRUN));
 
