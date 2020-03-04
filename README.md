@@ -30,3 +30,16 @@ latency| nr      rate
 3000   | 47      9.4e-06
 ...
 ```
+
+## Clock aspects
+It is recommended to have a CPU with constant, invariant TSC (time-stamp counter) tha also support from RDTSCP instructions. This allows fast retrievel of the time. The server I worked on, function [clock_gettime](https://linux.die.net/man/3/clock_gettime) executes in 26 nanosec.
+You can display clock support this via Linux command
+
+```
+$ cat /proc/cpuinfo | grep -i tsc
+flags : ... tsc  rdtscp constant_tsc nonstop_tsc ...
+```
+
+The program is using clock CLOCK_MONOTONIC and you get similar results with CLOCK_REALTIME.
+
+Read this [excellent article](http://btorpey.github.io/blog/2014/02/18/clock-sources-in-linux/) for more details on clock support by the Linux kernel.
