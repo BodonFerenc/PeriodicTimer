@@ -25,14 +25,13 @@ void runtimer(unsigned long *now, unsigned long *waittill,
 
     struct timespec nextSendTime;
     clock_gettime(CLOCK_MONOTONIC,&nextSendTime);
-    waittill[0]=BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
 
     while (runs < nr) {  
         clock_gettime(CLOCK_MONOTONIC, &timenow);
         if (isafter(&timenow, &nextSendTime)) {
           now[runs] = BILLION * timenow.tv_sec + timenow.tv_nsec;
+          waittill[runs++] = BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
           addNanoSecs(&nextSendTime, wait);
-          waittill[++runs]=BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
           }
     } 
 }
