@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     
     runtimer(now, waittill, WAIT, MAXRUN);    
 
-    const float realdur = ((float) waittill[MAXRUN-1] - now[1]) / BILLION;    
+    const float realdur = (float) (waittill[MAXRUN-1] - now[1]) / BILLION;    
 
     printf("Real duration was\t %f sec\n", realdur);
     printf("Real frequency was\t %ld\n", (long) (MAXRUN / realdur));    
