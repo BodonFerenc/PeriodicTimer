@@ -5,6 +5,7 @@ LDFLAGS	:=-O3 -lpthread
 all: ../bin/bysleep ../bin/bytimecheck
 
 ../bin/bysleep: bysleep.o
+	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
 	
 ../bin/bytimecheck: bytimecheck.o
