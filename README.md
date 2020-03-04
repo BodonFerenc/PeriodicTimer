@@ -18,8 +18,7 @@ The program will output a few useful information, e.g the planned delays between
 
 ```
 $ q
-q) \l utils/csvutil.q
-q) t: .csv.read `res.csv
+q) t: ("JJJ";enlist",") 0:hsym `res.csv
 q) update rate: nr % sum nr from select nr: count i by 1000 xbar latency from t
 latency| nr      rate
 -------| ----------------
