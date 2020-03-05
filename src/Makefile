@@ -14,7 +14,7 @@ all: ../bin/bysleep ../bin/bytimecheck ../bin/gettimeMeter
 ../bin/gettimeMeter: gettimeMeter.o
 	$(CC) $(LDFLAGS) $^ -o $@	
 
-%o: %.c
+%.o: %.c common.c
 	$(CC) $(CFLAGS) $<
 
 .PHONY: clean
