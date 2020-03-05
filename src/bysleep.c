@@ -9,20 +9,22 @@
 
 #include "common.c"
 
-
-void runtimer(unsigned long *now, unsigned long *waittill, 
+void runtimer(bool (*eventExecutor)(const struct timespec*), 
+    unsigned long *now, unsigned long *waittill, 
     unsigned long wait, unsigned long nr) {
 
     unsigned long runs=0;   
+    bool ok = true;
     struct timespec nextSendTime;
     clock_gettime(CLOCK_MONOTONIC,&nextSendTime);
 
-    while (runs < nr) {        
+    while (ok && runs < nr) {        
         addNanoSecs(&nextSendTime,wait);
         waittill[runs] = BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
         clock_nanosleep(CLOCK_MONOTONIC, 1, &nextSendTime, NULL);
         clock_gettime(CLOCK_MONOTONIC, &nextSendTime);
-        now[runs++] = BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
+        ok = eventExecutor(&nextSendTime);
+        now[runs++] = BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;        
     } 
 }
 

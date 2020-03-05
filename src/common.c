@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <time.h>
+#include <stdbool.h>
 
 const long BILLION=1000000000l;
 
@@ -11,7 +12,7 @@ const long BILLION=1000000000l;
         @param wait - nanosecond between each trigger, i.e wait time
         @param nr - number of triggers
         */
-void runtimer(unsigned long *now, unsigned long *waittill, 
+void runtimer(bool (*eventExecutor)(const struct timespec*), unsigned long *now, unsigned long *waittill, 
     unsigned long wait, unsigned long nr);
 
 
@@ -27,6 +28,11 @@ static void inline addNanoSecs(struct timespec* curTime, unsigned long nanosec)
         curTime->tv_sec += nanosec/BILLION;
         curTime->tv_nsec += nanosec;
     }
+}
+
+bool doNothing(const struct timespec* t) {
+    // do nothing
+    return true;    
 }
 
 void writeOutDetail(const char* filename, unsigned long nr, 
@@ -66,7 +72,7 @@ int main(int argc, char* argv[])
     unsigned long *waittill = (unsigned long *) malloc(MAXRUN * sizeof(long));
 
     printf("Starting the timer\n");      
-    runtimer(now, waittill, WAIT, MAXRUN);    
+    runtimer(doNothing, now, waittill, WAIT, MAXRUN);    
 
     const float realdur = (float) (now[MAXRUN-1] - waittill[0]) / BILLION;    
     printf("Real duration was\t\t %f sec\n", realdur);
