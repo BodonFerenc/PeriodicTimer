@@ -10,7 +10,7 @@ $ make
 
 To run the executables:
 ```
-$ ./bin/bytimecheck 20000 30 res.csv
+$ ./bin/bytimecheck 200000 30 res.csv
 ```
 which will run a time check based periodic timer for 30 seconds. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
 
@@ -19,13 +19,18 @@ The program will output a few useful information, e.g the planned delays between
 ```
 $ q
 q) t: ("JJJ";enlist",") 0:hsym `res.csv
+q)select median_latency: med latency, avg_latency: avg latency, max_latency: max latency from t
+median_latency avg_latency max_latency
+--------------------------------------
+12             145.4046    428664
 q) update rate: nr % sum nr from select nr: count i by 1000 xbar latency from t
 latency| nr      rate
--------| ----------------
-0      | 4991570 0.998314
-1000   | 443     8.86e-05
-2000   | 139     2.78e-05
-3000   | 47      9.4e-06
+-------| --------------------
+0      | 5996167 0.9993612
+1000   | 25      4.166667e-06
+2000   | 21      3.5e-06
+3000   | 20      3.333333e-06
+4000   | 18      3e-06
 ...
 ```
 
