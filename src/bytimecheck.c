@@ -12,7 +12,7 @@
 
 /** returns true if the first time is at or after the second time
 */
-static bool inline isafter(struct timespec* t1, struct timespec* t2) {
+static bool inline isafter(const struct timespec* t1, const struct timespec* t2) {
     return t1->tv_sec > t2->tv_sec || 
         (t1->tv_sec == t2->tv_sec && t1->tv_nsec >= t2->tv_nsec);
 }
