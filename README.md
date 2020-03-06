@@ -12,7 +12,7 @@ To run the executables:
 ```
 $ ./bin/bytimecheck 200000 30 res.csv
 ```
-which will run a time check based periodic timer for 30 seconds. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
+which will run a time check based periodic timer for 30 seconds and binds the process to a single core. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
 
 The program will output a few useful information, e.g the planned delays between triggers and the average of actual and planned delays. You can get a full distribution of the delays, .e.g by a simple q process:
 
@@ -42,6 +42,11 @@ You can display clock support this via Linux command
 ```
 $ cat /proc/cpuinfo | grep -i tsc
 flags : ... tsc  rdtscp constant_tsc nonstop_tsc ...
+```
+If you CPU does not support constant TSC (that keeps all TSC’s synchronized across all cores) then you need to bind the application to a CPU by
+
+```
+$ taskset -c 0 ...
 ```
 
 The program is using clock CLOCK_MONOTONIC and you get similar results with CLOCK_REALTIME.
