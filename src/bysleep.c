@@ -9,6 +9,16 @@
 
 #include "common.c"
 
+static void inline addNanoSecs(struct timespec* curTime, unsigned long nanosec)
+{
+    curTime->tv_nsec += nanosec;
+    if (curTime->tv_nsec >= BILLION)
+    {
+        ++(curTime->tv_sec);
+        curTime->tv_nsec -= BILLION;
+    }
+}
+
 void runtimer(bool (*eventExecutor)(const struct timespec*), 
     unsigned long *now, unsigned long *waittill, 
     unsigned long wait, unsigned long nr) {

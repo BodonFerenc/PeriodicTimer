@@ -16,20 +16,6 @@ void runtimer(bool (*eventExecutor)(const struct timespec*), unsigned long *now,
     unsigned long wait, unsigned long nr);
 
 
-static void inline addNanoSecs(struct timespec* curTime, unsigned long nanosec)
-{
-    if ((nanosec+curTime->tv_nsec) >= BILLION)
-    {
-        curTime->tv_sec += (nanosec/BILLION)+1;
-        curTime->tv_nsec += nanosec-BILLION;
-    }
-    else
-    {
-        curTime->tv_sec += nanosec/BILLION;
-        curTime->tv_nsec += nanosec;
-    }
-}
-
 bool doNothing(const struct timespec* t) {
     // do nothing
     return true;    

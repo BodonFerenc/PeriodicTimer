@@ -8,6 +8,7 @@
  */
 
 #include "common.c"
+#include <math.h>
 
 /** returns true if the first time is at or after the second time
 */
@@ -16,6 +17,29 @@ static bool inline isafter(const struct timespec* t1, const struct timespec* t2)
         (t1->tv_sec == t2->tv_sec && t1->tv_nsec >= t2->tv_nsec);
 }
 
+static void inline setNextTriggerTime(struct timespec* const input, struct timespec* nextTriggerTime, long nanosec);
+
+static void inline setNextTriggerTimeJumpForward(struct timespec* const input, struct timespec* nextTriggerTime, long nanosec) {
+    nextTriggerTime->tv_nsec = nanosec * ceil((double) (1 + input->tv_nsec) / nanosec);
+    if (nextTriggerTime->tv_nsec >= BILLION)
+    {
+        nextTriggerTime->tv_sec = input->tv_sec + 1;
+        nextTriggerTime->tv_nsec -= BILLION;        
+    } else
+    {
+        nextTriggerTime->tv_sec = input->tv_sec;
+    }
+}
+
+static void inline setNextTriggerTimeStrict(struct timespec* const input, struct timespec* nextTriggerTime, long nanosec) {
+    // we ignore current time
+    nextTriggerTime->tv_nsec += nanosec; 
+    if (nextTriggerTime->tv_nsec >= BILLION)
+    {
+        ++(nextTriggerTime->tv_sec);
+        nextTriggerTime->tv_nsec -= BILLION;
+    } 
+}
 
 void runtimer(bool (*eventExecutor)(const struct timespec*), unsigned long *now, unsigned long *waittill, 
     unsigned long wait, unsigned long nr) {
@@ -33,7 +57,7 @@ void runtimer(bool (*eventExecutor)(const struct timespec*), unsigned long *now,
           ok = eventExecutor(&timenow);
           now[runs] = BILLION * timenow.tv_sec + timenow.tv_nsec;
           waittill[runs++] = BILLION * nextSendTime.tv_sec + nextSendTime.tv_nsec;
-          addNanoSecs(&nextSendTime, wait);
+          setNextTriggerTime(&timenow, &nextSendTime, wait);
           }
     } 
 }

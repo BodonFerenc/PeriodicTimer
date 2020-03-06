@@ -1,22 +1,28 @@
 CC		:=gcc
 CFLAGS	:=-Wall -O3 -march=native -I. -std=c99 -D_POSIX_C_SOURCE=199309L -c
 LDFLAGS	:=-O3 -lpthread
+BINDIR  :=../bin
+OBJDIR  :=../obj
 
-all: ../bin/bysleep ../bin/bytimecheck ../bin/gettimeMeter
+all: $(BINDIR)/bysleep $(BINDIR)/bytimecheckjumpforward $(BINDIR)/bytimecheckstrict $(BINDIR)/gettimeMeter
 
-../bin/bysleep: bysleep.o
+$(BINDIR)/%: $(OBJDIR)/%.o
 	mkdir -p $(@D)
 	$(CC) $(LDFLAGS) $^ -o $@
-	
-../bin/bytimecheck: bytimecheck.o
-	$(CC) $(LDFLAGS) $^ -o $@	
 
-../bin/gettimeMeter: gettimeMeter.o
-	$(CC) $(LDFLAGS) $^ -o $@	
 
-%.o: %.c common.c
-	$(CC) $(CFLAGS) $<
+$(OBJDIR)/bytimecheckstrict.o: bytimecheck.c common.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -DsetNextTriggerTime=setNextTriggerTimeStrict -o $@ $<
+
+$(OBJDIR)/bytimecheckjumpforward.o: bytimecheck.c common.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -DsetNextTriggerTime=setNextTriggerTimeJumpForward -o $@ $<
+
+$(OBJDIR)/%.o: %.c common.c
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf $(OBJDIR)/*.o
