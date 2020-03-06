@@ -20,7 +20,8 @@ static bool inline isafter(const struct timespec* t1, const struct timespec* t2)
 static void inline setNextTriggerTime(struct timespec* const input, struct timespec* nextTriggerTime, long nanosec);
 
 static void inline setNextTriggerTimeJumpForward(struct timespec* const input, struct timespec* nextTriggerTime, long nanosec) {
-    nextTriggerTime->tv_nsec = nanosec * ceil((double) (1 + input->tv_nsec) / nanosec);
+    nextTriggerTime->tv_nsec = input->tv_nsec + nanosec - input->tv_nsec % nanosec;
+
     if (nextTriggerTime->tv_nsec >= BILLION)
     {
         nextTriggerTime->tv_sec = input->tv_sec + 1;
@@ -46,10 +47,13 @@ void runtimer(bool (*eventExecutor)(const struct timespec*), unsigned long *now,
 
     unsigned long runs=0;        
     bool ok = true;
-    struct timespec timenow;    
-
     struct timespec nextSendTime;
     clock_gettime(CLOCK_MONOTONIC,&nextSendTime);
+
+    struct timespec timenow;    
+    clock_gettime(CLOCK_MONOTONIC,&timenow);
+
+    setNextTriggerTime(&timenow, &nextSendTime, wait);
 
     while (ok && runs < nr) {  
         clock_gettime(CLOCK_MONOTONIC, &timenow);
