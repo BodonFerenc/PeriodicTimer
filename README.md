@@ -10,7 +10,7 @@ $ make
 
 To run the executables:
 ```
-$ ./bin/bytimecheck 200000 30 res.csv
+$ ./bin/bytimecheckjumpforward 200000 30 res.csv
 ```
 which will run a time check based periodic timer for 30 seconds and binds the process to a single core. The frequency of triggers is 20000, i.e. 20000 events per second and the planned and actual trigger times are saved in file `res.csv`. Run `./bin/bysleep` for a sleep based timer.
 
