@@ -4,7 +4,7 @@ LDFLAGS	:=-O3 -lpthread
 BINDIR  :=../bin
 OBJDIR  :=../obj
 
-all: $(BINDIR)/bysleep $(BINDIR)/bytimecheckjumpforward $(BINDIR)/bytimecheckstrict $(BINDIR)/gettimeMeter
+all: $(BINDIR)/bysleep $(BINDIR)/bytimecheckjumpforward $(BINDIR)/bytimecheckstrict $(BINDIR)/corefnsmeter
 
 $(BINDIR)/%: $(OBJDIR)/%.o
 	mkdir -p $(@D)
